@@ -25,7 +25,7 @@ import de.t_dankworth.secscanqr.activities.MainActivity;
  * This class is all about the VCard to QR-Code Generate Activity. In this Class the functionality of generating a QR-Code Picture is covered.
  */
 
-public class VCardGeneratorActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class VCardGeneratorActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     EditText tfFirstName, tfName, tfOrg, tfTeleWork, tfTelePrivate, tfMobil, tfEmail, tfWeb, tfStreet, tfPLZ, tfCity, tfState, tfCountry;
     int format;
@@ -38,7 +38,7 @@ public class VCardGeneratorActivity extends AppCompatActivity implements Adapter
      * initialized.
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);
@@ -57,7 +57,7 @@ public class VCardGeneratorActivity extends AppCompatActivity implements Adapter
         spinner.setAdapter(adapter);
 
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             text2Qr = (String[]) savedInstanceState.get(STATE_TEXT);
             recoverOldValues();
         }
@@ -66,9 +66,9 @@ public class VCardGeneratorActivity extends AppCompatActivity implements Adapter
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 insertValuesIntoArray();
-                if(text2Qr[0].equals("") && text2Qr[1].equals("")){
+                if (text2Qr[0].equals("") && text2Qr[1].equals("")) {
                     Toast.makeText(getApplicationContext(), getResources().getText(R.string.error_fn_or_name_first), Toast.LENGTH_SHORT).show();
                 } else {
                     buildVCardCode();
@@ -84,7 +84,7 @@ public class VCardGeneratorActivity extends AppCompatActivity implements Adapter
      * This method saves all data before the Activity will be destroyed
      */
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState){
+    public void onSaveInstanceState(final Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
 
         savedInstanceState.putStringArray(STATE_TEXT, text2Qr);
@@ -94,25 +94,24 @@ public class VCardGeneratorActivity extends AppCompatActivity implements Adapter
      * Generates the chosen format from the spinner menu
      */
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
         String compare = parent.getItemAtPosition(position).toString();
-        if(compare.equals("AZTEC")){
+        if (compare.equals("AZTEC")) {
             format = 10;
-        }
-        else if(compare.equals("QR_CODE")){
+        } else if (compare.equals("QR_CODE")) {
             format = 9;
         }
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    public void onNothingSelected(final AdapterView<?> parent) {
         format = 9;
     }
 
     /**
      * Initializes all input fields
      */
-    private void initializeInputFields(){
+    private void initializeInputFields() {
         tfFirstName = (EditText) findViewById(R.id.txtFN);
         tfName = (EditText) findViewById(R.id.txtName);
         tfOrg = (EditText) findViewById(R.id.txtOrg);
@@ -131,7 +130,7 @@ public class VCardGeneratorActivity extends AppCompatActivity implements Adapter
     /**
      * The values of the input fields will be placed into a string array
      */
-    private void insertValuesIntoArray(){
+    private void insertValuesIntoArray() {
         text2Qr[0] = tfName.getText().toString().trim();
         text2Qr[1] = tfFirstName.getText().toString().trim();
         text2Qr[2] = tfOrg.getText().toString().trim();
@@ -151,7 +150,7 @@ public class VCardGeneratorActivity extends AppCompatActivity implements Adapter
      * This will write the values of the array into the input fields
      * Needed if screen gets rotated
      */
-    private void recoverOldValues(){
+    private void recoverOldValues() {
         tfName.setText(text2Qr[0]);
         tfFirstName.setText(text2Qr[1]);
         tfOrg.setText(text2Qr[2]);
@@ -170,27 +169,27 @@ public class VCardGeneratorActivity extends AppCompatActivity implements Adapter
     /**
      * This method builds the final string which gets transformed into a qr-code
      */
-    private void buildVCardCode(){
-        vcardCode = "BEGIN:VCARD\nVERSION:2.1\nN:" + text2Qr[0] + ";" +text2Qr[1] + "\n";
-        if(!text2Qr[2].equals("")){
+    private void buildVCardCode() {
+        vcardCode = "BEGIN:VCARD\nVERSION:2.1\nN:" + text2Qr[0] + ";" + text2Qr[1] + "\n";
+        if (!text2Qr[2].equals("")) {
             vcardCode += "ORG:" + text2Qr[2] + "\n";
         }
-        if(!text2Qr[3].equals("")){
+        if (!text2Qr[3].equals("")) {
             vcardCode += "URL:" + text2Qr[3] + "\n";
         }
-        if(!text2Qr[4].equals("")){
+        if (!text2Qr[4].equals("")) {
             vcardCode += "EMAIL;TYPE=INTERNET:" + text2Qr[4] + "\n";
         }
-        if(!text2Qr[5].equals("")){
+        if (!text2Qr[5].equals("")) {
             vcardCode += "TEL;CELL:" + text2Qr[5] + "\n";
         }
-        if(!text2Qr[6].equals("")){
+        if (!text2Qr[6].equals("")) {
             vcardCode += "TEL;WORK;VOICE:" + text2Qr[6] + "\n";
         }
-        if(!text2Qr[7].equals("")){
+        if (!text2Qr[7].equals("")) {
             vcardCode += "TEL;HOME;VOICE:" + text2Qr[7] + "\n";
         }
-        if((!text2Qr[8].equals("")) || (!text2Qr[9].equals("")) || (!text2Qr[10].equals("")) || (!text2Qr[11].equals("")) || (!text2Qr[12].equals(""))){
+        if ((!text2Qr[8].equals("")) || (!text2Qr[9].equals("")) || (!text2Qr[10].equals("")) || (!text2Qr[11].equals("")) || (!text2Qr[12].equals(""))) {
             vcardCode += "ADR:;;" + text2Qr[8] + ";" + text2Qr[9] + ";" + text2Qr[10] + ";" + text2Qr[11] + ";" + text2Qr[12] + "\n";
         }
         vcardCode += "END:VCARD";
@@ -199,7 +198,7 @@ public class VCardGeneratorActivity extends AppCompatActivity implements Adapter
     /**
      *  This method will launch a new Activity were the generated QR-Code will be displayed.
      */
-    private void openResultActivity(){
+    private void openResultActivity() {
         Intent intent = new Intent(this, GeneratorResultActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("CODE", vcardCode);

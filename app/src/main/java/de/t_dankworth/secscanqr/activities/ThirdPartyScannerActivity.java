@@ -31,7 +31,7 @@ public class ThirdPartyScannerActivity extends AppCompatActivity {
     private String qrcode = "";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third_party_scanner);
 
@@ -42,12 +42,12 @@ public class ThirdPartyScannerActivity extends AppCompatActivity {
      * This method handles the results of the scan
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         Intent intent = getIntent();
 
-        if(result != null){
-            if(result.getContents()==null){
+        if (result != null) {
+            if (result.getContents() == null) {
                 setResult(RESULT_CANCELED, intent);
                 finish();
                 return;
@@ -69,14 +69,14 @@ public class ThirdPartyScannerActivity extends AppCompatActivity {
      *
      * http://www.apache.org/licenses/LICENSE-2.0
      */
-    public void zxingScan(){
+    public void zxingScan() {
         IntentIntegrator integrator = new IntentIntegrator(activity);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
         integrator.setPrompt((String) getResources().getText(R.string.xzing_label));
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String camera_setting = prefs.getString("pref_camera", "");
-        if(camera_setting.equals("1")){
+        if (camera_setting.equals("1")) {
             integrator.setCameraId(1);
         } else {
             integrator.setCameraId(0);
@@ -87,7 +87,7 @@ public class ThirdPartyScannerActivity extends AppCompatActivity {
         integrator.setBarcodeImageEnabled(false);
         try {
             integrator.initiateScan();
-        } catch (ArithmeticException e){
+        } catch (ArithmeticException e) {
 
         }
     }

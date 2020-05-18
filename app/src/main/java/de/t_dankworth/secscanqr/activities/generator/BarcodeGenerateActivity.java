@@ -42,7 +42,7 @@ public class BarcodeGenerateActivity extends AppCompatActivity implements Adapte
     private static final String STATE_TEXT = MainActivity.class.getName();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);
@@ -62,7 +62,7 @@ public class BarcodeGenerateActivity extends AppCompatActivity implements Adapte
 
 
         //If the device were rotated then restore information
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             text2Barcode = (String) savedInstanceState.get(STATE_TEXT);
             text.setText(text2Barcode);
         }
@@ -72,8 +72,8 @@ public class BarcodeGenerateActivity extends AppCompatActivity implements Adapte
         String action = intent.getAction();
         String type = intent.getType();
 
-        if (Intent.ACTION_SEND.equals(action) && type != null){
-            if("text/plain".equals(type)){
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
                 handleSendText(intent); //call method to handle sended text
             }
         }
@@ -82,9 +82,9 @@ public class BarcodeGenerateActivity extends AppCompatActivity implements Adapte
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 text2Barcode = text.getText().toString().trim();
-                if(text2Barcode.equals("")){
+                if (text2Barcode.equals("")) {
                     Toast.makeText(getApplicationContext(), getResources().getText(R.string.error_text_first), Toast.LENGTH_SHORT).show();
                 } else {
                     openResultActivity();
@@ -98,9 +98,9 @@ public class BarcodeGenerateActivity extends AppCompatActivity implements Adapte
      * This method handles Text that was shared by an other app to SecScanQR and generates a qr code
      * @param intent from Share to from other Apps
      */
-    private void handleSendText(Intent intent){
+    private void handleSendText(final Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-        if(sharedText != null){
+        if (sharedText != null) {
             text.setText(sharedText);
             text2Barcode = sharedText;
         }
@@ -110,7 +110,7 @@ public class BarcodeGenerateActivity extends AppCompatActivity implements Adapte
      * This method saves all data before the Activity will be destroyed
      */
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState){
+    public void onSaveInstanceState(final Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
 
         savedInstanceState.putString(STATE_TEXT, text2Barcode);
@@ -120,7 +120,7 @@ public class BarcodeGenerateActivity extends AppCompatActivity implements Adapte
      * Generates the chosen format from the spinner menu
      */
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+    public void onItemSelected(final AdapterView<?> adapterView, final View view, final int position, final long l) {
         String compare = adapterView.getItemAtPosition(position).toString();
         switch (compare) {
             case "BARCODE":
@@ -154,14 +154,14 @@ public class BarcodeGenerateActivity extends AppCompatActivity implements Adapte
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
+    public void onNothingSelected(final AdapterView<?> adapterView) {
         format = 1;
     }
 
     /**
      *  This method will launch a new Activity were the generated QR-Code will be displayed.
      */
-    private void openResultActivity(){
+    private void openResultActivity() {
         Intent intent = new Intent(this, GeneratorResultActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("CODE", text2Barcode);

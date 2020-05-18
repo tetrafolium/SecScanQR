@@ -37,7 +37,7 @@ public class ButtonHandler {
      * @param format= the qrcode format as a String - Needs to be reset for orientation switches
      * @param buttonContainer = The Container as a LinearLayout with all the Buttons
      */
-    public static void resetScreenInformation(TextView tvInformation, TextView tvFormat, TextView mLabelInformation, TextView mLabelFormat, String qrcode, String format, BottomNavigationView buttonContainer){
+    public static void resetScreenInformation(final TextView tvInformation, final TextView tvFormat, final TextView mLabelInformation, final TextView mLabelFormat, final String qrcode, final String format, final BottomNavigationView buttonContainer) {
         tvInformation.setText(R.string.default_text_main_activity);
         tvFormat.setText("");
         tvFormat.setVisibility(View.GONE);
@@ -54,7 +54,7 @@ public class ButtonHandler {
      * @param qrcode = the qrcode as a String
      * @param activity = Activty were the method was called. Needed for Toats and Clipboard
      */
-    public static void copyToClipboard(TextView tv, String qrcode, Activity activity){
+    public static void copyToClipboard(final TextView tv, final String qrcode, final Activity activity) {
         ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText(tv.getText(), qrcode);
         clipboard.setPrimaryClip(clip);
@@ -66,7 +66,7 @@ public class ButtonHandler {
      * @param qrcode = the qrcode as a String
      * @param activity = Activty were the method was called. Needed for sharing intent
      */
-    public static void shareTo(String qrcode, Activity activity){
+    public static void shareTo(final String qrcode, final Activity activity) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, qrcode);
@@ -80,15 +80,15 @@ public class ButtonHandler {
      * @param qrcode = the qrcode as a String
      * @param activity = Activty were the method was called.Needed for Toast and web intent
      */
-    public static void openInWeb(String qrcode, Activity activity){
-        if(qrcode.equals("")){
+    public static void openInWeb(final String qrcode, final Activity activity) {
+        if (qrcode.equals("")) {
             Toast.makeText(activity.getApplicationContext(), activity.getResources().getText(R.string.error_scan_first), Toast.LENGTH_SHORT).show();
         } else {
             try {
                 Uri uri = Uri.parse(qrcode);
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 activity.startActivity(intent);
-            } catch (Exception e){
+            } catch (Exception e) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
                 String search_engine = prefs.getString("pref_search_engine", "");
                 String tempUrl;
@@ -134,20 +134,20 @@ public class ButtonHandler {
      * @param format = format of the code
      * @param activity = Activty were the method was called.Needed for Toast and web intent
      */
-    public static void openInWeb(String qrcode, String format, Activity activity){
-        if(qrcode.equals("")){
+    public static void openInWeb(final String qrcode, final String format, final Activity activity) {
+        if (qrcode.equals("")) {
             Toast.makeText(activity.getApplicationContext(), activity.getResources().getText(R.string.error_scan_first), Toast.LENGTH_SHORT).show();
         } else {
             try {
                 Uri uri = Uri.parse(qrcode);
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 activity.startActivity(intent);
-            } catch (Exception e){
+            } catch (Exception e) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
                 String search_engine = prefs.getString("pref_search_engine", "");
                 String barcode_engine = prefs.getString("pref_barcode_search_engine", "");
                 String tempUrl;
-                if(barcode_engine.equals("0")){
+                if (barcode_engine.equals("0")) {
                     switch (search_engine) {
                         case "1":
                             tempUrl = "https://www.bing.com/search?q=";

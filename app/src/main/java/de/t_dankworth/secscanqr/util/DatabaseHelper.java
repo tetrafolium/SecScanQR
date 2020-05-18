@@ -14,7 +14,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * This class handles all operations regarding the sql database
  */
 
-public class DatabaseHelper extends SQLiteOpenHelper{
+public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "SecScanQR.db";
@@ -28,17 +28,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private String DROP_SCANNED_TABLE = "DROP TABLE IF EXISTS" + TABLE_SCANNED;
 
 
-    public DatabaseHelper(Context context){
+    public DatabaseHelper(final Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db){
+    public void onCreate(final SQLiteDatabase db) {
         db.execSQL(CREATE_SCANNED_TABLE);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1){
+    public void onUpgrade(final SQLiteDatabase db, final int i, final int i1) {
         db.execSQL(DROP_SCANNED_TABLE);
         onCreate(db);
     }
@@ -48,13 +48,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
      * @param code = qrcode that will be added to the database
      * @return a boolean if the code was added to the database or not
      */
-    public boolean addData(String code){
+    public boolean addData(final String code) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_SCANNED_QRCODE, code);
         //Insert Data into Database with a checking if the insert into the database worked
         long result = db.insert(TABLE_SCANNED, null, values);
-        if(result == -1){
+        if (result == -1) {
             db.close();
             return false;
         } else {
@@ -68,7 +68,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
      * Returns all the data from the database
      * @return a Cursor pointing on the requested table
      */
-    public Cursor getData(){
+    public Cursor getData() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_SCANNED;
         Cursor data = db.rawQuery(query, null);
@@ -80,7 +80,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
      * @param code
      * @return a Cursor pointing on the id
      */
-    public Cursor getItemID(String code){
+    public Cursor getItemID(final String code) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + COLUMN_SCANNED_ID + " FROM " + TABLE_SCANNED + " WHERE " + COLUMN_SCANNED_QRCODE + " = '" + code + "'";
         Cursor data = db.rawQuery(query, null);
@@ -92,7 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
      * Delete a specific Item from database
      * @param id
      */
-    public void deleteItem(int id){
+    public void deleteItem(final int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "DELETE FROM " + TABLE_SCANNED + " WHERE " + COLUMN_SCANNED_ID + " = '" + id + "'";
         db.execSQL(query);
@@ -101,7 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     /**
      * Reset database
      */
-    public void resetDatabase(){
+    public void resetDatabase() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "DELETE FROM " + TABLE_SCANNED;
         db.execSQL(query);

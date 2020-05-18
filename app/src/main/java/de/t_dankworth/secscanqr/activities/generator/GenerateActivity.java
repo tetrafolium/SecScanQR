@@ -38,7 +38,7 @@ public class GenerateActivity extends AppCompatActivity {
      * initialized.
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);
@@ -49,7 +49,7 @@ public class GenerateActivity extends AppCompatActivity {
 
         lvGenerators.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(final AdapterView<?> adapterView, final View view, final int i, final long l) {
                 String choice = lvGenerators.getItemAtPosition(i).toString();
                 switch (choice) {
                     case "BARCODE":
@@ -78,7 +78,7 @@ public class GenerateActivity extends AppCompatActivity {
      * This method saves all data before the Activity will be destroyed
      */
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState){
+    public void onSaveInstanceState(final Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
     }
 

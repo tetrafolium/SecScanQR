@@ -51,7 +51,7 @@ public class GeneratorResultActivity extends AppCompatActivity {
     final  int REQ_EXTERNAL_STORAGE_PERMISSION = 97;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);
@@ -65,18 +65,18 @@ public class GeneratorResultActivity extends AppCompatActivity {
         formatInt = bundle.getInt("FORMAT");
         getFormat();
         multiFormatWriter = new MultiFormatWriter();
-        try{
-            BitMatrix bitMatrix = multiFormatWriter.encode(text2Code, format, 1000,1000);
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(text2Code, format, 1000, 1000);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             bitmap = barcodeEncoder.createBitmap(bitMatrix);
             codeImage.setImageBitmap(bitmap);
-        } catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(getApplicationContext(), getResources().getText(R.string.error_generate), Toast.LENGTH_SHORT).show();
             finish();
         }
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 requestPermission();
             }
         });
@@ -84,12 +84,12 @@ public class GeneratorResultActivity extends AppCompatActivity {
     }
 
     private void getFormat() {
-        switch(formatInt){
+        switch (formatInt) {
             case 1:
                 format = BarcodeFormat.CODABAR;
                 break;
             case 2:
-                format= BarcodeFormat.CODE_128;
+                format = BarcodeFormat.CODE_128;
                 break;
             case 3:
                 format = BarcodeFormat.CODE_39;
@@ -154,10 +154,10 @@ public class GeneratorResultActivity extends AppCompatActivity {
             }
         }
     }
-    private void createFolder(){
+    private void createFolder() {
         File storageDir = new File(Environment.getExternalStorageDirectory(), "SecScanQR");
-        if(!storageDir.exists()){
-            if(!storageDir.mkdir()){
+        if (!storageDir.exists()) {
+            if (!storageDir.mkdir()) {
                 Toast.makeText(this, this.getResources().getText(R.string.toast_erorr), Toast.LENGTH_LONG).show();
             } else {
                 saveQrCode();
@@ -175,10 +175,10 @@ public class GeneratorResultActivity extends AppCompatActivity {
      * @param grantResults stores the answers of the user regarding to the requestPermission method
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(final int requestCode, final @NonNull String[] permissions, final @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if(requestCode == REQ_EXTERNAL_STORAGE_PERMISSION && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == REQ_EXTERNAL_STORAGE_PERMISSION && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             createFolder();
         } else {
             Toast.makeText(this, this.getResources().getText(R.string.toast_permission_needed), Toast.LENGTH_LONG).show();
@@ -188,15 +188,15 @@ public class GeneratorResultActivity extends AppCompatActivity {
     /**
      * This method asks for the write to external storage Permission to save or share the generated QR-Code
      */
-    private void requestPermission(){
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+    private void requestPermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             createFolder();
         } else {
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_EXTERNAL_STORAGE_PERMISSION);
         }
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(final MenuItem item) {
         finish();
         return true;
     }

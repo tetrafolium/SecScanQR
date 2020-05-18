@@ -41,7 +41,7 @@ public class TextGeneratorActivity extends AppCompatActivity  implements Adapter
      * initialized.
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);
@@ -61,7 +61,7 @@ public class TextGeneratorActivity extends AppCompatActivity  implements Adapter
 
 
         //If the device were rotated then restore information
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             text2Qr = (String) savedInstanceState.get(STATE_TEXT);
             text.setText(text2Qr);
         }
@@ -71,8 +71,8 @@ public class TextGeneratorActivity extends AppCompatActivity  implements Adapter
         String action = intent.getAction();
         String type = intent.getType();
 
-        if (Intent.ACTION_SEND.equals(action) && type != null){
-            if("text/plain".equals(type)){
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
                 handleSendText(intent); //call method to handle sended text
             }
         }
@@ -81,9 +81,9 @@ public class TextGeneratorActivity extends AppCompatActivity  implements Adapter
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 text2Qr = text.getText().toString().trim();
-                if(text2Qr.equals("")){
+                if (text2Qr.equals("")) {
                     Toast.makeText(getApplicationContext(), getResources().getText(R.string.error_text_first), Toast.LENGTH_SHORT).show();
                 } else {
                     openResultActivity();
@@ -98,7 +98,7 @@ public class TextGeneratorActivity extends AppCompatActivity  implements Adapter
      * This method saves all data before the Activity will be destroyed
      */
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState){
+    public void onSaveInstanceState(final Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
 
         savedInstanceState.putString(STATE_TEXT, text2Qr);
@@ -108,9 +108,9 @@ public class TextGeneratorActivity extends AppCompatActivity  implements Adapter
      * This method handles Text that was shared by an other app to SecScanQR and generates a qr code
      * @param intent from Share to from other Apps
      */
-    private void handleSendText(Intent intent){
+    private void handleSendText(final Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-        if(sharedText != null){
+        if (sharedText != null) {
             text.setText(sharedText);
             text2Qr = sharedText;
         }
@@ -120,18 +120,17 @@ public class TextGeneratorActivity extends AppCompatActivity  implements Adapter
      * Generates the chosen format from the spinner menu
      */
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
         String compare = parent.getItemAtPosition(position).toString();
-        if(compare.equals("AZTEC")){
+        if (compare.equals("AZTEC")) {
             format = 10;
-        }
-        else if(compare.equals("QR_CODE")){
+        } else if (compare.equals("QR_CODE")) {
             format = 9;
         }
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    public void onNothingSelected(final AdapterView<?> parent) {
         format = 9;
     }
 
@@ -139,7 +138,7 @@ public class TextGeneratorActivity extends AppCompatActivity  implements Adapter
     /**
      *  This method will launch a new Activity were the generated QR-Code will be displayed.
      */
-    private void openResultActivity(){
+    private void openResultActivity() {
         Intent intent = new Intent(this, GeneratorResultActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("CODE", text2Qr);

@@ -27,7 +27,7 @@ public class AboutDialog extends Dialog {
 
     private Context mContext = null;
 
-    public AboutDialog(Context context) {
+    public AboutDialog(final Context context) {
         super(context);
 
         mContext = context;
@@ -40,7 +40,7 @@ public class AboutDialog extends Dialog {
      */
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.about);
@@ -52,9 +52,9 @@ public class AboutDialog extends Dialog {
         try {
             packageInfo = getContext().getPackageManager().getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
             String appInfo = "SecScanQR";
-            String versionInfo = "Version " +
-                    packageInfo.versionName + " (Build " +
-                    Integer.toString(packageInfo.versionCode) + ")";
+            String versionInfo = "Version "
+                    + packageInfo.versionName + " (Build "
+                    + Integer.toString(packageInfo.versionCode) + ")";
             tv.setText(appInfo + "\n" + versionInfo);
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, "Call to getPackageInfo() failed! => ", e);
@@ -66,10 +66,10 @@ public class AboutDialog extends Dialog {
     /**
      * Depending on the saved settings. The day or night mode will be loaded
      */
-    private void loadTheme(){
+    private void loadTheme() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         String history_setting = prefs.getString("pref_day_night_mode", "");
-        if(history_setting.equals("1")){
+        if (history_setting.equals("1")) {
             mContext.setTheme(R.style.darktheme);
         } else {
         }

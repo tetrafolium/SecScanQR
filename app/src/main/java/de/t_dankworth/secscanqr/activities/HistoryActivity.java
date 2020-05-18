@@ -44,7 +44,7 @@ public class HistoryActivity extends AppCompatActivity {
     final Activity activity = this;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);
@@ -61,20 +61,20 @@ public class HistoryActivity extends AppCompatActivity {
      * Refreshes the History after comming back from the HistoryDetailsActivity
      */
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
         showDataInListView();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.history_optionsmenu, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.history_optionsmenu_delete) {
@@ -83,13 +83,13 @@ public class HistoryActivity extends AppCompatActivity {
             dialogBuilder.setMessage(R.string.delete_history_dialog_message);
             dialogBuilder.setPositiveButton(R.string.delete_history_dialog_confirmation, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int i) {
+                public void onClick(final DialogInterface dialog, final int i) {
                     resetDatabase();
                 }
             });
             dialogBuilder.setNegativeButton(R.string.delete_history_dialog_cancel, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
+                public void onClick(final DialogInterface dialogInterface, final int i) {
                     dialogInterface.dismiss();
                 }
             });
@@ -99,7 +99,7 @@ public class HistoryActivity extends AppCompatActivity {
             Cursor data = historyDatabaseHelper.getData();
             String codes = "";
             // Concatenates all the codes in a string separated by a newline
-            while(data.moveToNext()){
+            while (data.moveToNext()) {
                 codes += data.getString(1); // column 1:code
                 if (!data.isLast())
                     codes += "\n";
@@ -115,10 +115,10 @@ public class HistoryActivity extends AppCompatActivity {
      * The ArrayList will be handed over to a ListAdapter and the listview takes this ListAdapter.
      * Then set an onItemClickListener to the ListView.
      */
-    private void showDataInListView(){
+    private void showDataInListView() {
         Cursor data = historyDatabaseHelper.getData();
         ArrayList<String> listData = new ArrayList<>();
-        while(data.moveToNext()){
+        while (data.moveToNext()) {
             listData.add(data.getString(1)); //column 0 = id; column 1 = code
         }
         ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
@@ -126,15 +126,15 @@ public class HistoryActivity extends AppCompatActivity {
 
         historyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(final AdapterView<?> adapterView, final View view, final int i, final long l) {
                 String code = adapterView.getItemAtPosition(i).toString();
-                try{
+                try {
                     Cursor data = historyDatabaseHelper.getItemID(code);
                     int itemID = -1;
-                    while(data.moveToNext()){
+                    while (data.moveToNext()) {
                         itemID = data.getInt(0);
                     }
-                    if(itemID > -1){
+                    if (itemID > -1) {
                         Intent historyDetails = new Intent(HistoryActivity.this, HistoryDetailsActivity.class);
                         historyDetails.putExtra("id", itemID);
                         historyDetails.putExtra("code", code);
@@ -143,7 +143,7 @@ public class HistoryActivity extends AppCompatActivity {
                         Toast.makeText(activity.getApplicationContext(), getResources().getText(R.string.error_not_in_database), Toast.LENGTH_LONG).show();
                     }
                     //Catch Exception for DataMatrix codes
-                } catch (SQLException e){
+                } catch (SQLException e) {
                     Toast.makeText(activity.getApplicationContext(), getResources().getText(R.string.error_sqlexception), Toast.LENGTH_LONG).show();
 
                 }
@@ -154,7 +154,7 @@ public class HistoryActivity extends AppCompatActivity {
     /**
      * This method will call the resetDatabase method of the DatabaseHelper
      */
-    private void resetDatabase(){
+    private void resetDatabase() {
         historyDatabaseHelper.resetDatabase();
         super.finish();
     }

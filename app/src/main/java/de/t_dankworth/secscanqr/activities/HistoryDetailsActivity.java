@@ -50,7 +50,7 @@ public class HistoryDetailsActivity extends AppCompatActivity {
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        public boolean onNavigationItemSelected(final @NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.history_action_navigation_delete:
                     historyDatabaseHelper.deleteItem(selectedID);
@@ -75,7 +75,7 @@ public class HistoryDetailsActivity extends AppCompatActivity {
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);

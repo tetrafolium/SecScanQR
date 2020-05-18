@@ -29,7 +29,7 @@ import de.t_dankworth.secscanqr.activities.MainActivity;
  *
  * This class is all about the geo location to QR-Code Generate Activity. In this Class the functionality of generating a QR-Code Picture is covered.
  */
-public class GeoGeneratorActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class GeoGeneratorActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     EditText tfLatitude, tfLongtitude;
     CheckBox cbLatitude, cbLongtitude;
@@ -46,7 +46,7 @@ public class GeoGeneratorActivity extends AppCompatActivity implements AdapterVi
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);
@@ -68,17 +68,17 @@ public class GeoGeneratorActivity extends AppCompatActivity implements AdapterVi
         spinner.setAdapter(adapter);
 
         //If the device were rotated then restore information
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             latitude = (String) savedInstanceState.get(STATE_LATITUDE);
             tfLatitude.setText(latitude);
             longtitude = (String) savedInstanceState.get(STATE_LONGTITUDE);
             tfLongtitude.setText(longtitude);
             north = (Boolean) savedInstanceState.get(STATE_NORTH);
-            if(!north){
+            if (!north) {
                 cbLatitude.setChecked(false);
             }
             east = (Boolean) savedInstanceState.get(STATE_EAST);
-            if(!east){
+            if (!east) {
                 cbLongtitude.setChecked(false);
             }
         }
@@ -87,25 +87,25 @@ public class GeoGeneratorActivity extends AppCompatActivity implements AdapterVi
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 latitude = tfLatitude.getText().toString().trim();
                 longtitude = tfLongtitude.getText().toString().trim();
-                if(latitude.equals("") || longtitude.equals("")){
+                if (latitude.equals("") || longtitude.equals("")) {
                     Toast.makeText(getApplicationContext(), getResources().getText(R.string.error_geo_first), Toast.LENGTH_SHORT).show();
                 } else {
                     multiFormatWriter = new MultiFormatWriter();
-                    try{
-                        if(north && east) {
+                    try {
+                        if (north && east) {
                             geo = "geo:" + latitude + "," + longtitude;
-                        } else if (!east && north){
+                        } else if (!east && north) {
                             geo = "geo:" + latitude + ",-" + longtitude;
-                        } else if (!north && east){
+                        } else if (!north && east) {
                             geo = "geo:-" + latitude + "," + longtitude;
                         } else {
                             geo = "geo:-" + latitude + ",-" + longtitude;
                         }
                         openResultActivity();
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         Toast.makeText(activity.getApplicationContext(), getResources().getText(R.string.error_generate), Toast.LENGTH_LONG).show();
                     }
                 }
@@ -117,7 +117,7 @@ public class GeoGeneratorActivity extends AppCompatActivity implements AdapterVi
      * This method saves all data before the Activity will be destroyed
      */
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState){
+    public void onSaveInstanceState(final Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
 
         savedInstanceState.putString(STATE_LATITUDE, latitude);
@@ -130,35 +130,34 @@ public class GeoGeneratorActivity extends AppCompatActivity implements AdapterVi
      * Generates the chosen format from the spinner menu
      */
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
         String compare = parent.getItemAtPosition(position).toString();
-        if(compare.equals("AZTEC")){
+        if (compare.equals("AZTEC")) {
             format = 10;
-        }
-        else if(compare.equals("QR_CODE")){
+        } else if (compare.equals("QR_CODE")) {
             format = 9;
         }
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    public void onNothingSelected(final AdapterView<?> parent) {
         format = 9;
     }
 
     /**
      * Handles functionality behind the Checkboxes
      */
-    public void onClickCheckboxes(View v){
-        if(cbLatitude.isChecked() && cbLongtitude.isChecked()){
+    public void onClickCheckboxes(final View v) {
+        if (cbLatitude.isChecked() && cbLongtitude.isChecked()) {
             north = true;
             east = true;
-        } else if(!cbLatitude.isChecked() && cbLongtitude.isChecked()){
+        } else if (!cbLatitude.isChecked() && cbLongtitude.isChecked()) {
             north = false;
             east = true;
-        } else if(cbLatitude.isChecked() && !cbLongtitude.isChecked()){
+        } else if (cbLatitude.isChecked() && !cbLongtitude.isChecked()) {
             north = true;
             east = false;
-        } else{
+        } else {
             north = false;
             east = false;
         }
@@ -167,7 +166,7 @@ public class GeoGeneratorActivity extends AppCompatActivity implements AdapterVi
     /**
      *  This method will launch a new Activity were the generated QR-Code will be displayed.
      */
-    private void openResultActivity(){
+    private void openResultActivity() {
         Intent intent = new Intent(this, GeneratorResultActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("CODE", geo);
