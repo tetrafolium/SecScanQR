@@ -71,10 +71,8 @@ public class TextGeneratorActivity extends AppCompatActivity  implements Adapter
         String action = intent.getAction();
         String type = intent.getType();
 
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
-            if ("text/plain".equals(type)) {
-                handleSendText(intent); //call method to handle sended text
-            }
+        if ((Intent.ACTION_SEND.equals(action) && type != null) && ("text/plain".equals(type))) {
+            handleSendText(intent); //call method to handle sended text
         }
 
         //OnClickListener for the "+" Button and functionality

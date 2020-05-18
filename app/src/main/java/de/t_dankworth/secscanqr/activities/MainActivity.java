@@ -170,10 +170,8 @@ public class MainActivity extends AppCompatActivity {
         String action = intent.getAction();
         String type = intent.getType();
 
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
-            if ("image/*".equals(type)) {
-                handleSendPicture();
-            }
+        if ((Intent.ACTION_SEND.equals(action) && type != null) && ("image/*".equals(type))) {
+            handleSendPicture();
         }
 
     }
